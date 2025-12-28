@@ -18,7 +18,7 @@ export default {
     <div class="max-w-4xl mx-auto py-8 px-4">
       <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-900">AI Streaming Chat</h1>
-        <p class="text-gray-600 mt-2">Powered by OpenRouter & Gemma AI</p>
+        <p class="text-gray-600 mt-2">AI-powered streaming chat</p>
         <a href="/" class="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block">
           ← Back to Home
         </a>
