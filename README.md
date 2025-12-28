@@ -16,7 +16,12 @@ AI_MODEL=google/gemma-3-4b-it:free
 composer run dev
 ```
 
-Visit: **http://localhost:8000/chatbot** 🎉
+**Test the application:**
+- 🤖 **Chatbot UI**: http://localhost:8000/chatbot (recommended)
+- 💬 **Simple Chat**: http://localhost:8000/chat
+- 🧪 **Quick Test**: Open `stream-test.html` in browser
+
+That's it! 🎉
 
 ## 🌟 Features
 
@@ -281,6 +286,72 @@ data: {"content":"","done":true}
    ```
 4. Send request
 
+### Method 4: Using stream-test.html (Quick HTML Test)
+
+A simple HTML file is included for quick streaming tests:
+
+#### Option A: Open from Code Editor/IDE
+
+**VS Code:**
+1. Right-click on `stream-test.html` in file explorer
+2. Select "Open with Default Browser" OR
+3. Install "Live Server" extension and click "Go Live"
+
+**WebStorm / PhpStorm:**
+1. Right-click on `stream-test.html` in Project panel
+2. Select "Open In" → "Browser" (Chrome/Firefox/etc)
+3. Or press `Alt + F2` on Windows/Linux, `Option + F2` on Mac
+
+**Sublime Text:**
+1. Open `stream-test.html`
+2. Right-click in editor → "Open in Browser"
+3. Or install "View In Browser" package
+
+**Zed:**
+1. Install the "Live Server" extension in Zed:
+   - Open Zed Extensions: `⌘ + Shift + X` (Mac) or `Ctrl + Shift + X` (Win/Linux)
+   - Search for "Live Server"
+   - Click "Install"
+2. Open `stream-test.html` in Zed
+3. Press `⌘ + .` (Mac) or `Ctrl + .` (Windows/Linux) to start Live Server
+4. The file will open automatically in your default browser
+
+**Alternative for all editors:**
+- Right-click file in project tree
+- Select "Reveal in Finder/Explorer/File Manager"
+- Double-click `stream-test.html` to open in default browser
+
+#### Option B: Command Line
+
+```bash
+# Make sure Laravel server is running
+composer run dev
+
+# Open the test file in your browser
+open stream-test.html          # macOS
+start stream-test.html         # Windows
+xdg-open stream-test.html      # Linux
+```
+
+#### Option C: Manual
+
+1. Ensure Laravel server is running (`composer run dev`)
+2. Navigate to project folder in file explorer
+3. Double-click `stream-test.html`
+
+**What happens:**
+The page will automatically:
+- Send a test prompt "Tell me a joke"
+- Display the streamed response in real-time
+
+**Customize the test:**
+Edit `stream-test.html` line 10 to change the prompt:
+```javascript
+body: JSON.stringify({prompt: 'Your custom prompt here'})
+```
+
+**Note:** This is a minimal test file. For full features, use the web interfaces at `/chat` or `/chatbot`.
+
 ## 📡 API Endpoints
 
 ### Public Routes (No Authentication Required)
@@ -348,7 +419,9 @@ laravel-ai/
 ├── routes/
 │   ├── api.php                           # API routes
 │   └── web.php                           # Web routes
-└── .env.example                          # Environment template
+├── stream-test.html                      # Quick streaming test file
+├── .env.example                          # Environment template
+└── README.md                             # This file
 ```
 
 ## 🎨 Frontend Technologies
