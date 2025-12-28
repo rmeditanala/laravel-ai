@@ -18,4 +18,8 @@ Route::get('chat', function () {
     return Inertia::render('Chat');
 })->name('chat');
 
+Route::get('chatbot', function () {
+    return Inertia::render('Chatbot');
+})->name('chatbot');
+
 require __DIR__.'/settings.php';

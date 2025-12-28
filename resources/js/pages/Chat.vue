@@ -19,9 +19,14 @@ export default {
       <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-900">AI Streaming Chat</h1>
         <p class="text-gray-600 mt-2">AI-powered streaming chat</p>
-        <a href="/" class="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block">
-          ← Back to Home
-        </a>
+        <div class="flex gap-4 mt-3">
+          <a href="/" class="text-blue-600 hover:text-blue-800 text-sm inline-block">
+            ← Back to Home
+          </a>
+          <a href="/chatbot" class="text-green-600 hover:text-green-800 text-sm inline-block">
+            Try Chatbot UI →
+          </a>
+        </div>
       </div>
 
       <StreamChat />
