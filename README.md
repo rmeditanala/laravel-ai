@@ -2,6 +2,22 @@
 
 A modern Laravel-based AI chat application with real-time streaming capabilities, built with Vue 3, Inertia.js, and OpenRouter API integration.
 
+## 🚀 Quick Start (3 Steps)
+
+```bash
+# 1. Get free API key from https://openrouter.ai/
+
+# 2. Add to .env
+AI_API_KEY=sk-or-v1-your-key-here
+AI_BASE_URL=https://openrouter.ai/api/v1
+AI_MODEL=google/gemma-3-4b-it:free
+
+# 3. Run everything with one command
+composer run dev
+```
+
+Visit: **http://localhost:8000/chatbot** 🎉
+
 ## 🌟 Features
 
 - **Real-time Streaming** - Watch AI responses stream character-by-character
@@ -107,15 +123,31 @@ npm run build
 
 ## 🎬 Running the Application
 
-### Development Mode
+### Development Mode (Recommended)
 
-Start all services (Laravel server, queue worker, logs, Vite):
+**All-in-one command** - Starts Laravel server, queue worker, logs, and Vite:
 
 ```bash
-npm run dev
+composer run dev
 ```
 
-Or start individually:
+This single command starts everything you need:
+- 🌐 Laravel server (port 8000)
+- ⚡ Vite dev server with hot module reload
+- 📋 Queue worker for background jobs
+- 📝 Real-time logs monitoring
+
+**Output example:**
+```
+server  Laravel development server started: http://127.0.0.1:8000
+queue   Listening for jobs...
+logs     Tail database logs...
+vite     VITE ready in 500 ms → http://localhost:5173
+```
+
+### Alternative: Start Services Individually
+
+If you prefer to run services in separate terminals:
 
 ```bash
 # Terminal 1 - Laravel server
@@ -123,6 +155,12 @@ php artisan serve
 
 # Terminal 2 - Vite dev server
 npm run dev
+
+# Terminal 3 - Queue worker (optional)
+php artisan queue:listen --tries=1
+
+# Terminal 4 - Logs (optional)
+php artisan pail --timeout=0
 ```
 
 ### Production Mode
