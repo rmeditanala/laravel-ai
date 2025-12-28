@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OpenAIController;
+use App\Http\Controllers\AIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +14,5 @@ use App\Http\Controllers\OpenAIController;
 |
 */
 
-Route::post('/stream-chat', [OpenAIController::class, 'streamChat']);
-Route::post('/chat', [OpenAIController::class, 'chat']);
+Route::post('/chat', [AIController::class, 'chat']);
+Route::post('/stream-chat', [AIController::class, 'streamChat']);
