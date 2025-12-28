@@ -35,9 +35,10 @@ return [
         ],
     ],
 
-    'openrouter' => [
-        'key' => env('OPENROUTER_API_KEY'),
-        'base_url' => 'https://openrouter.ai/api/v1',
+    'ai' => [
+        'key' => env('AI_API_KEY'),
+        'base_url' => env('AI_BASE_URL', 'https://openrouter.ai/api/v1'),
+        'model' => env('AI_MODEL', 'google/gemma-3-4b-it:free'),
     ],
 
 ];

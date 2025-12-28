@@ -17,8 +17,9 @@ class OpenAIController extends Controller
             'prompt' => 'required|string|max:4000',
         ]);
 
-        $apiKey = config('services.openrouter.key');
-        $baseUrl = config('services.openrouter.base_url');
+        $apiKey = config('services.ai.key');
+        $baseUrl = config('services.ai.base_url');
+        $model = config('services.ai.model');
 
         $client = OpenAI::factory()
             ->withApiKey($apiKey)
@@ -26,7 +27,7 @@ class OpenAIController extends Controller
             ->make();
 
         $response = $client->chat()->create([
-            'model' => 'google/gemma-3-4b-it:free',
+            'model' => $model,
             'messages' => [
                 ['role' => 'user', 'content' => $request->input('prompt')],
             ],
@@ -54,17 +55,18 @@ class OpenAIController extends Controller
             'prompt' => 'required|string|max:4000',
         ]);
 
-        $apiKey = config('services.openrouter.key');
-        $baseUrl = config('services.openrouter.base_url');
+        $apiKey = config('services.ai.key');
+        $baseUrl = config('services.ai.base_url');
+        $model = config('services.ai.model');
 
         $client = OpenAI::factory()
             ->withApiKey($apiKey)
             ->withBaseUri($baseUrl)
             ->make();
 
-        return response()->stream(function () use ($client, $request) {
+        return response()->stream(function () use ($client, $request, $model) {
             $stream = $client->chat()->createStreamed([
-                'model' => 'google/gemma-3-4b-it:free',
+                'model' => $model,
                 'messages' => [
                     ['role' => 'user', 'content' => $request->input('prompt')],
                 ],
