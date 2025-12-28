@@ -31,9 +31,11 @@ That's it! 🎉
   - Simple Streaming Chat UI
   - Full-featured Chatbot with session management
 - **Chat History** - LocalStorage-based session persistence
+- **Predefined System Prompts** - 9 built-in AI behavior presets (Tutor, Code Expert, Writer, etc.)
 - **Beautiful UI** - Modern, responsive design with Tailwind CSS
 - **RESTful API** - Clean API endpoints for chat and streaming
 - **Server-Sent Events (SSE)** - Efficient streaming implementation
+- **Secure by Design** - System prompts are server-side constants, not user-inputtable
 
 ## 📋 Prerequisites
 
@@ -403,7 +405,7 @@ laravel-ai/
 │   │   └── Resources/
 │   │       └── ChatResponseResource.php   # API resource formatting
 │   ├── Services/
-│   │   └── AIService.php                  # AI business logic
+│   │   └── AIService.php                  # AI business logic & system prompts
 │   └── Exceptions/
 │       └── AIServiceException.php         # Custom exception
 ├── config/
@@ -420,6 +422,7 @@ laravel-ai/
 │   ├── api.php                           # API routes
 │   └── web.php                           # Web routes
 ├── stream-test.html                      # Quick streaming test file
+├── SYSTEM_PROMPTS.md                     # System prompts documentation
 ├── .env.example                          # Environment template
 └── README.md                             # This file
 ```
@@ -457,6 +460,97 @@ AI_MODEL=gpt-4
 
 No code changes required!
 
+## 🎭 System Prompts (AI Behavior Customization)
+
+The application includes **9 predefined system prompts** to customize AI behavior. These are server-side constants for security and cannot be modified via API requests.
+
+### Available System Prompts
+
+| Constant | Description |
+|----------|-------------|
+| `AIService::SYSTEM_DEFAULT` | Helpful, friendly, and accurate assistant |
+| `AIService::SYSTEM_TUTOR` | Patient tutor with clear explanations |
+| `AIService::SYSTEM_CODE_EXPERT` | Programming expert with code examples |
+| `AIService::SYSTEM_WRITER` | Creative writing assistant |
+| `AIService::SYSTEM_BUSINESS` | Business consultant with strategic advice |
+| `AIService::SYSTEM_SCIENTIST` | Scientific explanations with principles |
+| `AIService::SYSTEM_TRANSLATOR` | Professional translator |
+| `AIService::SYSTEM_SUMMARIZER` | Clear, concise summarization |
+| `AIService::SYSTEM_CREATIVE` | Innovative and creative solutions |
+
+### Usage in Controllers
+
+**Default behavior (no system prompt):**
+```php
+// In AIController.php
+$result = $this->aiService->chat($prompt);
+```
+
+**Using a predefined system prompt:**
+```php
+// Use tutor mode for educational content
+$result = $this->aiService->chat(
+    $prompt,
+    AIService::SYSTEM_TUTOR
+);
+
+// Use code expert mode for programming help
+$result = $this->aiService->chat(
+    $prompt,
+    AIService::SYSTEM_CODE_EXPERT
+);
+```
+
+**Streaming with system prompts:**
+```php
+$stream = $this->aiService->streamChat(
+    $prompt,
+    AIService::SYSTEM_WRITER  // for creative writing
+);
+```
+
+**Change default for a controller:**
+```php
+// In controller's constructor
+$this->aiService->setDefaultSystemPrompt(
+    AIService::SYSTEM_CODE_EXPERT
+);
+
+// Now all requests use code expert mode
+$result = $this->aiService->chat($prompt);
+```
+
+### Creating Specialized Endpoints
+
+Create different endpoints for different AI behaviors:
+
+```php
+// In routes/api.php
+Route::post('/api/tutor', 'TutorController@chat');
+Route::post('/api/code-help', 'CodeController@chat');
+Route::post('/api/writing', 'WritingController@chat');
+```
+
+```php
+// In TutorController.php
+public function chat(ChatRequest $request)
+{
+    $result = $this->aiService->chat(
+        $request->input('prompt'),
+        AIService::SYSTEM_TUTOR  // Always uses tutor mode
+    );
+    return response()->json($result);
+}
+```
+
+### Security Note
+
+⚠️ **System prompts are server-side only** - They cannot be passed via API requests for security reasons. This prevents users from injecting arbitrary instructions. To change AI behavior, create specialized controllers or endpoints using the predefined constants.
+
+For more details, see [SYSTEM_PROMPTS.md](SYSTEM_PROMPTS.md).
+
+
+
 ## 🔒 Security Considerations
 
 - **Never commit** `.env` file to version control
@@ -465,6 +559,8 @@ No code changes required!
 - **Implement rate limiting** for production use
 - **Add authentication** for production routes
 - **Validate and sanitize** all user inputs
+- **System prompts are server-side only** - Prevents prompt injection attacks
+- **No user-controlled system prompts** - All AI behaviors are predefined constants
 
 ## 🐛 Troubleshooting
 

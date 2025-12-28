@@ -26,7 +26,15 @@ class AIController extends Controller
     public function chat(ChatRequest $request): JsonResponse
     {
         try {
+            // System prompts are predefined constants in AIService
+            // DO NOT accept system prompts from user requests for security reasons
             $result = $this->aiService->chat($request->input('prompt'));
+
+            // Example: To use a different system prompt, uncomment below:
+            // $result = $this->aiService->chat(
+            //     $request->input('prompt'),
+            //     AIService::SYSTEM_TUTOR  // or SYSTEM_CODE_EXPERT, SYSTEM_WRITER, etc.
+            // );
 
             return (new ChatResponseResource($result))
                 ->response()
@@ -49,7 +57,15 @@ class AIController extends Controller
     {
         return response()->stream(function () use ($request) {
             try {
+                // System prompts are predefined constants in AIService
+                // DO NOT accept system prompts from user requests for security reasons
                 $stream = $this->aiService->streamChat($request->input('prompt'));
+
+                // Example: To use a different system prompt, uncomment below:
+                // $stream = $this->aiService->streamChat(
+                //     $request->input('prompt'),
+                //     AIService::SYSTEM_CODE_EXPERT  // or SYSTEM_TUTOR, SYSTEM_WRITER, etc.
+                // );
 
                 foreach ($stream as $chunk) {
                     $data = json_encode($chunk);
